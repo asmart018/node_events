@@ -1,1 +1,0 @@
-// Complete Events Exercise

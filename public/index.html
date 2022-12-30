@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Newsletter Signup</title>
+  </head>
+  <body>
+    <main>
+      <h2>Inut your name and email to sign up to our newsletter!</h2>
+      <form onsubmit="">
+        <p id="feedback"></p>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" placeholder="Full name" />
+        <label for="email">Email:</label>
+        <input
+          type="text"
+          name="email"
+          id="email"
+          placeholder="email@email.com"
+        />
+        <button type="submit">Sign up</button>
+      </form>
+    </main>
+    <script>
+      let form = document.querySelector("form");
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        let body = JSON.stringify({
+          name: form.children[2].value,
+          email: form.children[4].value,
+        });
+
+        if (form.children[2].value == "" || form.children[4].value == "") {
+          form.children[0].textContent =
+            "Unsuccessfully signed up for our newsletter, please check the information provided and try again.";
+        } else {
+          fetch("http://localhost:3000/newsletter_signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body,
+          }).then((res) => {
+            if (res.ok) {
+              form.children[2].value = "";
+              form.children[4].value = "";
+              form.children[0].textContent =
+                "Successfully signed up for our newsletter!!";
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
